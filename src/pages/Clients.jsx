@@ -7,8 +7,8 @@ class Clients extends Component {
     this.removeClient = this.removeClient.bind(this);
   }
 
-  removeClient({target}) {
-    console.log(target.parentNode.key);
+  removeClient(event) {
+    return event.target.parentElement.remove();
   }
 
   render() {
@@ -18,7 +18,7 @@ class Clients extends Component {
         { login === '' && <Redirect to="/loggedout" />}
         <p>{login}</p>
         { clients.length === 0 && <p>Nenhum Cliente Cadastrado</p> }
-        { clients !== undefined && clients.map((client, index) => 
+        { clients && clients.map((client, index) => 
           <div key={index}>{ `${client.name} ${client.email} ${client.age}`}
           <button onClick={this.removeClient}>X</button>
           </div>)}
