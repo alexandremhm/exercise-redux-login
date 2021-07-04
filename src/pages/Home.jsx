@@ -1,33 +1,42 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { actionLogin } from '../actions/actionLogin';
 
-class Home extends Component {
-  // constructor() {
-  //   super()
-  //   // this.handleClick = this.handleClick.bind(this);
-  // }
+function Home (props) { 
+  const { setLogin } = props
+  const history = useHistory();
+  
+  
+  const routeChange = (event) =>{ 
+    const emailValid = email.current.value.match(/^([\w.%+-]+)@([\w-]+\.)+([\w]{2,})$/i);
+    const passwordValid = password.current.value.length >= 6;
+    event.preventDefault();
+    let path = `/clients`;
+      if (!emailValid){
+     return alert('Email não é válido')
+    } else if (!passwordValid) {
+      return alert('Senha não é válida')
+    }    
+    return history.push(path);
+  }
 
-  // handleClick(event) {
-  //   event.preventDefault()
-  //   return <Redirect to="/clients" />    
-  // }
+  const email = React.createRef();
+  const password = React.createRef();
 
-  render() {
-    const { setLogin } = this.props;
+
+ 
     return (
       <div>
-        <form action="">
-          <input type="email" name="email" placeholder="email" onChange={ (event) => setLogin(event.target.value)}/>
-          <input type="password" name="password" placeholder="password" minLength="6" />
-          <button type="submit" onClick={ this.handleClick }>
-            <Link to="/clients">Login</Link>
+        <form action="" method="GET">
+          <input type="email" ref={email} name="email" placeholder="email" onChange={ (event) => setLogin(event.target.value)}/>
+          <input type="password" ref={password} name="password" placeholder="password" minLength="6" />
+          <button type="submit" onClick={ routeChange }>
+            Login
           </button>
         </form>    
       </div>
-    )
-  }
+    )  
 }
 
 
