@@ -1,16 +1,15 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
-
+import { Link, Redirect } from 'react-router-dom';
 class Clients extends Component {
   render() {
-    const { login, name, email, age } = this.props;
-    const newArr = [name, email, age];
+    const { login, clients } = this.props;
     return (
       <div>
+        { login === '' && <Redirect to="/loggedout" />}
         <p>{login}</p>
-        { name.length === 0 && <p>Nenhum Cliente Cadastrado</p> }
-        { name.length > 0 && newArr.map(([name, email, age], index) => <div>{ `${name[index]} ${email[index]} ${age[index]}`}</div>)}
+        { clients.length === 0 && <p>Nenhum Cliente Cadastrado</p> }
+        { clients !== undefined && clients.map((client) => <div>{ `${client.name} ${client.email} ${client.age}`}</div>)}
         <Link to="/register">Register</Link>  
       </div>
     )
@@ -19,9 +18,7 @@ class Clients extends Component {
 
 const mapStateToProps = (state) => ({
   login: state.loginReducer.login,
-  name: state.signUpReducer.name,
-  email: state.signUpReducer.email,
-  age: state.signUpReducer.age,
+  clients: state.signUpReducer.clients,
 })
 
 export default connect(mapStateToProps, null)(Clients);
